@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+			<style>
+			body{ background:black;}
+			#c1{ background:white;}
+			</style>
+			<script>
+			window.onload = function(){
+				/*
+				 		步骤：
+				 			1.绘制秒针表盘（用绘制圆形方法每6度循环，之后在其上层覆盖半径小一点的白色圆形）
+				 			2.绘制分针表盘（方法同上）
+				 			3.绘制时，分，秒针；
+				 			4.获取时间，将其以度数计算付给时，分，秒针
+				 			5.通过定时器让时，分，秒针动起来
+				 * */
+				var oC = document.getElementById('c1');
+				var oGC = oC.getContext('2d');
+				
+				function toDraw(){
+					var x = 200;
+					var y = 200;
+					var r = 150;
+					//开始前清除之前时分秒针
+					oGC.clearRect(0,0,oC.width,oC.height);
+					//获取时间，计算其转动的度数
+					var date = new Date;
+					
+					var hours =  (-90 + date.getHours()*30 + date.getMinutes()/2) * Math.PI/180;
+					var mins = (-90 + date.getMinutes()*6) * Math.PI/180;
+					var second = (-90 + date.getSeconds()*6) * Math.PI/180;
+					
+					//绘制秒针表盘
+					oGC.beginPath();
+					for(var i=0;i<60;i++){
+						oGC.moveTo(x,y);
+						oGC.arc(x,y,r,6*i*Math.PI/180,6*(i+1)*Math.PI/180,false);
+					}
+					oGC.closePath();
+					oGC.stroke();
+					
+					oGC.fillStyle = 'white';
+					oGC.beginPath();
+					oGC.moveTo(x,y);
+					oGC.arc(x,y,r*19/20,0,360*Math.PI/180,false);
+					oGC.closePath();
+					oGC.fill();
+					
+					//绘制时针表盘
+					oGC.lineWidth = 3
+					oGC.beginPath();
+					for(var i=0;i<12;i++){
+						oGC.moveTo(x,y);
+						oGC.arc(x,y,r,30*i*Math.PI/180,30*(i+1)*Math.PI/180,false);
+					}
+					oGC.closePath();
+					oGC.stroke();
+					
+					oGC.fillStyle = 'white';
+					oGC.beginPath();
+					oGC.moveTo(x,y);
+					oGC.arc(x,y,r*18/20,0,360*Math.PI/180,false);
+					oGC.closePath();
+					oGC.fill();
+					
+					//绘制时针
+					oGC.lineWidth = 5
+					oGC.beginPath();
+					oGC.moveTo(x,y);
+					oGC.arc(x,y,r*12/20,hours,hours,false);
+					oGC.closePath();
+					oGC.stroke();
+					
+					//绘制分针
+					oGC.lineWidth = 3
+					oGC.beginPath();
+					oGC.moveTo(x,y);
+					oGC.arc(x,y,r*16/20,mins,mins,false);
+					oGC.closePath();
+					oGC.stroke();
+					
+					//绘制秒针
+					oGC.lineWidth = 1
+					oGC.beginPath();
+					oGC.moveTo(x,y);
+					oGC.arc(x,y,r*18/20,second,second,false);
+					oGC.closePath();
+					oGC.stroke();
+				}
+				setInterval(toDraw,1000)
+			};
+			</script>
+			</head>
+			
+			<body>
+			<canvas id="c1" width="400" height="400"></canvas>
+			</body>
+</html>
