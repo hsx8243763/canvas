@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+			<style>
+				body{ background:black;}
+				#c1{ background:white;}
+				span{
+					position: absolute;
+					left: 164px;
+					top:174px;
+					font-size: 50px;
+					color: lightseagreen;
+				}
+			</style>
+	</head>
+	<body>
+		<canvas id="c1" width="400" height="400"></canvas>
+		<span id="number"></span>
+		<script type="text/javascript">
+			var oC = document.getElementById('c1');
+			var oGC = oC.getContext('2d');
+			var spans = document.getElementById("number")
+			var num = 0;
+			var num2  = 0;
+			var x = 200;
+			var y = 200;
+			setInterval(function(){
+				num += 7.2
+				num2+=2;
+				
+				if(num >360){
+					num =360
+				}
+				if(num2 >= 100){
+					num2 = 100;
+					spans.style.left = 144+'px';
+				}
+				spans.innerHTML = num2+'%';
+				
+				oGC.fillStyle = 'lightseagreen';
+				oGC.beginPath();
+				oGC.moveTo(x,y);
+				oGC.arc(x,y,100,0,num*Math.PI/180,false);
+				oGC.closePath();
+				oGC.fill();
+				
+				oGC.fillStyle = 'white';
+				oGC.beginPath();
+				oGC.moveTo(x,y);
+				oGC.arc(x,y,95,0,360*Math.PI/180,false);
+				oGC.closePath();
+				oGC.fill();
+			},30)
+			
+			
+			
+		</script>
+		
+	</body>
+</html>
